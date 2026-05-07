@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Feliz Día de la Madre – Grupo Docente Perú</title>
+
+    <!-- Meta tags de control de caché -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
+
+    <meta property="og:url" content="https://crear-saludo-dia-madre.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="🌸 Feliz Día de la Madre – Grupo Docente Perú" />
+    <meta property="og:description" content="Alguien te envió un saludo especial por el Día de la Madre 🌸" />
+    <meta property="og:image" content="https://crear-saludo-dia-madre.vercel.app/assets/preview_2026.jpg" />
+    <meta property="og:image:secure_url" content="https://crear-saludo-dia-madre.vercel.app/assets/preview_2026.jpg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta charset="UTF-8">
+    <title>Feliz Día de la Madre – Grupo Docente Perú</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <style>
+        @font-face {
+            font-family: "Gotham";
+            src: url("./assets/Gotham-Book.otf") format("opentype");
+            font-weight: 400;
+        }
+
+        :root {
+            --primary-color: #ec1354;
+            --text-dark: #ffffff;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: "Gotham", sans-serif;
+            background-color: #fdf2f2;
+            min-height: 100vh;
+            width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* --- SISTEMA DE CAPAS (LAYOUT) --- */
+        .layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            pointer-events: none;
+        }
+
+        /* Capas Estáticas */
+        .layer-bg {
+            background-image: url('./assets/fondo_desktop.jpeg');
+            z-index: 1;
+        }
+
+        .layer-detalles {
+            background-image: url('./assets/detalles_desktop.png');
+            z-index: 2;
+        }
+
+        .layer-superior {
+            background-image: url('./assets/gdp_superior_desktop.png');
+            z-index: 9;
+        }
+
+        /* Única capa con Parallax y Animación */
+        .layer-central {
+            background-image: url('./assets/central_desktop.png');
+            z-index: 4;
+            animation: floatCentral 6s ease-in-out infinite;
+            transition: transform 0.15s linear;
+            will-change: transform;
+        }
+
+        @keyframes floatCentral {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-12px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* --- FONDO VIVO (AMBIENT LIGHT) --- */
+        .ambient-glow {
+            position: fixed;
+            inset: 0;
+            z-index: 1;
+            pointer-events: none;
+
+            background:
+                radial-gradient(circle at 20% 40%, rgba(255, 105, 180, 0.6) 0%, transparent 40%),
+                radial-gradient(circle at 70% 60%, rgba(255, 182, 193, 0.5) 0%, transparent 45%),
+                radial-gradient(circle at 50% 20%, rgba(255, 255, 255, 0.4) 0%, transparent 50%);
+
+            animation: pulseMove 4s ease-in-out infinite;
+        }
+
+        @keyframes pulseMove {
+            0% {
+                opacity: 0.6;
+                transform: scale(1);
+            }
+
+            50% {
+                opacity: 1;
+                transform: scale(1.08);
+            }
+
+            100% {
+                opacity: 0.7;
+                transform: scale(1);
+            }
+        }
+
+        /* --- CANVAS AMBIENTE --- */
+        #ambient {
+            position: fixed;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        /* --- ESTRUCTURA DE CONTENIDO --- */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            height: 100vh;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        .empty-space {
+            display: block;
+        }
+
+        .content-column {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        /* --- CARD LIMPIA --- */
+        .card {
+            width: 100%;
+            max-width: 500px;
+            text-align: center;
+            padding: 40px;
+            border-radius: 30px;
+            position: relative;
+            overflow: hidden;
+            /* Eliminado blur y glow previo */
+            animation: cardEntrance 1.4s ease;
+        }
+
+        @keyframes cardEntrance {
+            from {
+                opacity: 0;
+                transform: translateY(40px) scale(0.96);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0px) scale(1);
+            }
+        }
+
+        /* --- ELEMENTOS DE UI --- */
+        .name-msg {
+            font-size: 2.2rem;
+            color: #d63384;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .main-msg {
+            font-size: 1.2rem;
+            color: var(--primary-color);
+            line-height: 1.6;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px 25px;
+            border-radius: 50px;
+            border: 2px solid #eee;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            outline: none;
+            text-align: center;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 50px;
+            border: none;
+            background: var(--primary-color);
+            color: var(--text-dark);
+            font-weight: bold;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        button.loading {
+            background: #ccc !important;
+            pointer-events: none;
+        }
+
+        /* --- RESPONSIVE MOBILE --- */
+        @media (max-width: 768px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+            }
+
+            .layer-bg {
+                background-image: url('./assets/fondo_mobile.jpeg');
+            }
+
+            .layer-detalles {
+                background-image: url('./assets/detalles_mobile.png');
+            }
+
+            .layer-superior {
+                background-image: url('./assets/gdp_superior_mobile.png');
+            }
+
+            .hide-layer-superior .layer-superior {
+                display: none !important;
+            }
+
+            .layer-central {
+                background-image: url('./assets/central_mobile.png');
+            }
+
+            .layer {
+                position: fixed;
+                z-index: 1;
+            }
+
+            .main-container {
+                display: block;
+                height: auto;
+                min-height: 100vh;
+            }
+
+            .empty-space {
+                display: none;
+            }
+
+            .content-column {
+                display: block;
+                width: 100%;
+                padding: 0;
+            }
+
+            .card {
+                margin: 0 auto;
+                padding: 210px 20px 100px 20px;
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+
+            .name-msg {
+                font-size: 1.8rem;
+            }
+
+            .main-msg {
+                font-size: 1.1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ambient-glow"></div>
+    <!-- CAPAS DE IMAGENES -->
+    <div class="layer layer-bg"></div>
+    <div class="layer layer-detalles"></div>
+    <div class="layer layer-superior"></div>
+    <div class="layer layer-central"></div>
+
+    <!-- SISTEMA DE MOVIMIENTO AMBIENTAL (CORAZONES) -->
+    <canvas id="ambient"></canvas>
+
+    <div class="main-container">
+        <div class="empty-space"></div>
+        <div class="content-column">
+            <div class="card" id="app">
+                <!-- Renderizado dinámico -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* --- LÓGICA DE APLICACIÓN --- */
+        /* --- LÓGICA DE APLICACIÓN --- */
+        const params = new URLSearchParams(location.search);
+        const senderName = params.get("n");
+        const app = document.getElementById("app");
+
+        if (senderName) {
+            // Agregamos la clase al body para ocultar la capa superior en mobile
+            document.body.classList.add("hide-layer-superior");
+
+            app.innerHTML = `
+                <p class="name-msg">    <b>${senderName}</b></p>
+                <p class="main-msg">
+                    Ser madre ya es una misión maravillosa, pero ser madre y maestra... es dejar huella en el mundo. 
+                    Tu vocación trasciende generaciones. Gracias por enseñar con amor dentro y fuera del aula. 🌸
+                </p>
+                <button onclick="location.href='/'" style="margin-top:20px">Crear mi propio saludo</button>
+            `;
+        } else {
+            // Aseguramos que la clase no esté presente si no hay nombre
+            document.body.classList.remove("hide-layer-superior");
+
+            app.innerHTML = `
+                <div class="vista-2">
+                    <p style="color:#d63384"><b>Escribe su nombre y crea un saludo especial por el Día de la Madre</b></p>
+                    <input id="nombre" placeholder="Su nombre aquí...">
+                    <button id="btn-create" onclick="create()">Enviar saludo</button>
+                </div>
+            `;
+        }
+        async function create() {
+            const input = document.getElementById("nombre");
+            const btn = document.getElementById("btn-create");
+            const name = input.value.trim();
+            if (!name) return;
+
+            btn.classList.add("loading");
+            btn.textContent = "Procesando...";
+
+            try {
+                const ipRes = await fetch("https://api.ipify.org?format=json");
+                const { ip } = await ipRes.json();
+
+                await fetch("https://script.google.com/macros/s/AKfycbwMRVZzmqCsqtTOK9mdrf_6njo-tbSf7MF8g7_uXjX3Zi0Nk6oWtouacwr0AGvdUvp3vA/exec", {
+                    method: "POST",
+                    body: JSON.stringify({
+                        nombre: name,
+                        ua: navigator.userAgent,
+                        ip,
+                        fecha: new Date().toISOString()
+                    }),
+                    mode: "no-cors"
+                });
+
+                const mensajeWA = `¡Feliz Día de la Madre! 🌸 Te envié un saludo especial aquí 👉 ${location.origin}?n=${encodeURIComponent(name)}`;
+                location.href = "https://wa.me/?text=" + encodeURIComponent(mensajeWA);
+            } catch (e) {
+                console.error(e);
+                btn.classList.remove("loading");
+                btn.textContent = "Enviar saludo";
+            }
+        }
+
+        /* --- AMBIENT PARTICLES & PARALLAX --- */
+        const ambient = document.getElementById("ambient");
+        const ctx = ambient.getContext("2d");
+        const pointer = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+
+        function resizeAmbient() {
+            ambient.width = window.innerWidth;
+            ambient.height = window.innerHeight;
+        }
+        window.addEventListener("resize", resizeAmbient);
+        resizeAmbient();
+
+        // Parallax - SOLO EN CAPA CENTRAL
+        const central = document.querySelector(".layer-central");
+
+        function updateParallax(x, y) {
+            const dx = (x / window.innerWidth - 0.5);
+            const dy = (y / window.innerHeight - 0.5);
+            // Solo movemos la imagen central (Fondo y Detalles quedan fijos)
+            if (central) central.style.transform = `translate(${dx * 25}px, ${dy * 25}px)`;
+        }
+
+        window.addEventListener("mousemove", (e) => {
+            pointer.x = e.clientX; pointer.y = e.clientY;
+            updateParallax(e.clientX, e.clientY);
+        });
+
+        window.addEventListener("touchmove", (e) => {
+            const touch = e.touches[0];
+            pointer.x = touch.clientX; pointer.y = touch.clientY;
+            updateParallax(touch.clientX, touch.clientY);
+        }, { passive: true });
+
+        // Partículas (Corazones)
+        const particles = [];
+        const COLORS = [
+            "rgba(255,182,193,0.7)",
+            "rgba(255,105,180,0.55)",
+            "rgba(255,255,255,0.7)",
+            "rgba(255,220,230,0.6)"
+        ];
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * ambient.width;
+                this.y = Math.random() * ambient.height;
+                this.size = Math.random() * 12 + 6;
+                this.speedY = Math.random() * 0.8 + 0.2;
+                this.speedX = Math.random() * 0.6 - 0.3;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.01;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.depth = Math.random() * 1 + 0.5;
+                this.offset = Math.random() * 1000;
+                this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+            }
+            drawHeart(x, y, size) {
+                ctx.beginPath();
+                ctx.moveTo(x, y);
+                ctx.bezierCurveTo(x - size / 2, y - size / 2, x - size, y + size / 3, x, y + size);
+                ctx.bezierCurveTo(x + size, y + size / 3, x + size / 2, y - size / 2, x, y);
+                ctx.fill();
+            }
+            update(time) {
+                const dx = this.x - pointer.x;
+                const dy = this.y - pointer.y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 180) {
+
+                    const force = (180 - dist) / 180;
+
+                    const angle = Math.atan2(dy, dx);
+
+                    this.x += Math.cos(angle) * force * 4;
+                    this.y += Math.sin(angle) * force * 4;
+                }
+                this.y += this.speedY * this.depth;
+                this.x += Math.sin(time * 0.001 + this.offset) * 0.3 + this.speedX;
+                this.rotation += this.rotationSpeed;
+                if (this.y > ambient.height + 40) { this.y = -20; this.x = Math.random() * ambient.width; }
+            }
+            render() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+                this.drawHeart(0, 0, this.size);
+                ctx.restore();
+            }
+        }
+
+        const PARTICLE_COUNT = window.innerWidth < 768 ? 80 : 150;
+        for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
+
+        function animate(time) {
+            ctx.clearRect(0, 0, ambient.width, ambient.height);
+            ctx.globalCompositeOperation = "screen";
+            particles.forEach((p) => { p.update(time); p.render(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Efecto click
+        function burst(x, y) {
+            for (let i = 0; i < 8; i++) {
+                const p = new Particle();
+                p.x = x; p.y = y;
+                p.speedX = (Math.random() - 0.5) * 6;
+                p.speedY = (Math.random() - 0.5) * 6;
+                particles.push(p);
+                setTimeout(() => { particles.splice(particles.indexOf(p), 1); }, 2000);
+            }
+        }
+
+        document.addEventListener("click", (e) => {
+            const btn = e.target.closest("button");
+            if (!btn) return;
+            const rect = btn.getBoundingClientRect();
+            burst(rect.left + rect.width / 2, rect.top + rect.height / 2);
+        });
+    </script>
+</body>
+
+</html>
