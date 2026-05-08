@@ -372,7 +372,7 @@ async function create() {
         const ipRes = await fetch("https://api.ipify.org?format=json");
         const { ip } = await ipRes.json();
 
-        await fetch("https://script.google.com/macros/s/AKfycbwMRVZzmqCsqtTOK9mdrf_6njo-tbSf7MF8g7_uXjX3Zi0Nk6oWtouacwr0AGvdUvp3vA/exec", {
+        await fetch("https://script.google.com/macros/s/AKfycbxhIvvHdNTKPCUM4wEmiti9-yFmnk61TVcnL6LyDDIza52-P6fLRyt95XplJAB5IFRYzg/exec", {
             method: "POST",
             body: JSON.stringify({
                 nombre: name,
