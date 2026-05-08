@@ -355,39 +355,48 @@
                 </div>
             `;
         }
-        async function create() {
-            const input = document.getElementById("nombre");
-            const btn = document.getElementById("btn-create");
-            const name = input.value.trim();
-            if (!name) return;
+async function create() {
+    const input = document.getElementById("nombre");
+    const btn = document.getElementById("btn-create");
+    const name = input.value.trim();
+    
+    if (!name) {
+        alert("Por favor, escribe tu nombre.");
+        return;
+    }
 
-            btn.classList.add("loading");
-            btn.textContent = "Procesando...";
+    btn.classList.add("loading");
+    btn.textContent = "Procesando...";
 
-            try {
-                const ipRes = await fetch("https://api.ipify.org?format=json");
-                const { ip } = await ipRes.json();
+    try {
+        const ipRes = await fetch("https://api.ipify.org?format=json");
+        const { ip } = await ipRes.json();
 
-                await fetch("https://script.google.com/macros/s/AKfycbwMRVZzmqCsqtTOK9mdrf_6njo-tbSf7MF8g7_uXjX3Zi0Nk6oWtouacwr0AGvdUvp3vA/exec", {
-                    method: "POST",
-                    body: JSON.stringify({
-                        nombre: name,
-                        ua: navigator.userAgent,
-                        ip,
-                        fecha: new Date().toISOString()
-                    }),
-                    mode: "no-cors"
-                });
+        await fetch("https://script.google.com/macros/s/AKfycbwMRVZzmqCsqtTOK9mdrf_6njo-tbSf7MF8g7_uXjX3Zi0Nk6oWtouacwr0AGvdUvp3vA/exec", {
+            method: "POST",
+            body: JSON.stringify({
+                nombre: name,
+                ua: navigator.userAgent,
+                ip,
+                fecha: new Date().toISOString()
+            }),
+            mode: "no-cors"
+        });
 
-                const mensajeWA = `¡Feliz Día de la Madre! 🌸 Te envié un saludo especial aquí 👉 ${location.origin}?n=${encodeURIComponent(name)}`;
-                location.href = "https://wa.me/?text=" + encodeURIComponent(mensajeWA);
-            } catch (e) {
-                console.error(e);
-                btn.classList.remove("loading");
-                btn.textContent = "Enviar saludo";
-            }
-        }
+        const textoSaludo = `¡Feliz Día de la Madre! 🌸 Te envié un saludo especial aquí 👉 `;
+        const urlSaludo = `${window.location.origin}${window.location.pathname}?n=${encodeURIComponent(name)}`;
+        
+        const mensajeCompleto = textoSaludo + urlSaludo;
 
+        window.location.href = `https://wa.me/?text=${encodeURIComponent(mensajeCompleto)}`;
+
+    } catch (e) {
+        console.error("Error en el proceso:", e);
+        btn.classList.remove("loading");
+        btn.textContent = "Enviar saludo";
+        alert("Hubo un error al procesar. Inténtalo de nuevo.");
+    }
+}
         /* --- AMBIENT PARTICLES & PARALLAX --- */
         const ambient = document.getElementById("ambient");
         const ctx = ambient.getContext("2d");
