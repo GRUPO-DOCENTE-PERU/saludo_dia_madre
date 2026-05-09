@@ -353,6 +353,41 @@
                     <button id="btn-create" onclick="create()">Enviar saludo</button>
                 </div>
             `;
+
+            // Manejador para restaurar el layout al cerrar el teclado móvil
+            const inputElement = app.querySelector('#nombre');
+            let initialHeight = window.innerHeight;
+            let keyboardOpen = false;
+
+            inputElement.addEventListener('focus', () => {
+                keyboardOpen = true;
+                initialHeight = window.innerHeight;
+            });
+
+            inputElement.addEventListener('blur', () => {
+                keyboardOpen = false;
+                // Restaurar la posición inicial
+                setTimeout(() => {
+                    window.scrollTo(0, 0);
+                    // Forzar un recalculado del layout
+                    document.documentElement.style.height = window.innerHeight + 'px';
+                    requestAnimationFrame(() => {
+                        document.documentElement.style.height = '';
+                    });
+                }, 100);
+            });
+
+            // Detectar cambios en el viewport
+            window.addEventListener('resize', () => {
+                if (!keyboardOpen && window.innerHeight < initialHeight) {
+                    keyboardOpen = true;
+                } else if (keyboardOpen && window.innerHeight >= initialHeight * 0.9) {
+                    keyboardOpen = false;
+                    setTimeout(() => {
+                        window.scrollTo(0, 0);
+                    }, 100);
+                }
+            });
         }
 async function create() {
     const input = document.getElementById("nombre");
