@@ -260,11 +260,18 @@
 
             .layer-central {
                 background-image: url('./assets/central_mobile2.png');
+                top: 0px;
+                background-size: contain;
+                background-position: center;
             }
 
             .layer {
                 position: fixed;
                 z-index: 1;
+            }
+
+            .layer-superior {
+                margin-top: 5px;
             }
 
             .main-container {
@@ -285,6 +292,7 @@
 
             .card {
                 margin: 0 auto;
+                margin-top: 30px;
                 padding: 210px 20px 100px 20px;
                 min-height: 100vh;
                 display: flex;
